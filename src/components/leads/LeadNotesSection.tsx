@@ -4,7 +4,11 @@ import { Textarea } from "@/components/ui/textarea";
 
 export function LeadNotesSection() {
   const [notes, setNotes] = useState([
-    { id: 1, text: "Initial contact made. Very interested in enterprise plan.", date: "May 14, 2026" },
+    {
+      id: 1,
+      text: "Initial contact made. Very interested in enterprise plan.",
+      date: "May 14, 2026",
+    },
     { id: 2, text: "Follow-up call scheduled for next week.", date: "May 15, 2026" },
   ]);
   const [newNote, setNewNote] = useState("");

@@ -168,7 +168,7 @@ export function LeadFormPage({ mode, leadId }: LeadFormPageProps) {
               <Input
                 id="annualRevenue"
                 {...form.register("annualRevenue")}
-                placeholder="$1,000,000"
+                placeholder="₹1,000,000"
               />
             </div>
             <div className="space-y-2">

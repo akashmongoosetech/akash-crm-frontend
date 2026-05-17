@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { crmService, type Lead } from "@/lib/crm-service";
 import { Button } from "@/components/ui/button";
 import { StatusBadge } from "@/components/crm/cells";
-import { ArrowLeft, Edit, Trash2, UserPlus, MessageSquare, Calendar } from "lucide-react";
+import { ArrowLeft, Edit, Trash2, UserPlus, MessageSquare, Calendar, Clock } from "lucide-react";
 import { DeleteLeadModal } from "@/components/leads/DeleteLeadModal";
 import { LeadActivityTimeline } from "@/components/leads/LeadActivityTimeline";
 import { LeadNotesSection } from "@/components/leads/LeadNotesSection";
@@ -56,7 +56,7 @@ function LeadDetailsPage() {
   }
 
   return (
-    <div className="p-8 max-w-[1200px] mx-auto space-y-8">
+    <div className="p-8 max-w-300 mx-auto space-y-8">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-4">
@@ -66,7 +66,11 @@ function LeadDetailsPage() {
           <div>
             <div className="flex items-center gap-3">
               <div className="size-12 rounded-full bg-primary/10 flex items-center justify-center text-primary font-semibold text-xl">
-                {lead.name.split(" ").map((n) => n[0]).join("").slice(0, 2)}
+                {lead.name
+                  .split(" ")
+                  .map((n) => n[0])
+                  .join("")
+                  .slice(0, 2)}
               </div>
               <div>
                 <h1 className="text-3xl font-semibold tracking-tight">{lead.name}</h1>
@@ -78,7 +82,11 @@ function LeadDetailsPage() {
 
         <div className="flex items-center gap-2">
           <StatusBadge value={lead.status} />
-          <Button variant="outline" size="sm" onClick={() => navigate({ to: "/leads/edit/$id", params: { id } })}>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => navigate({ to: "/leads/edit/$id", params: { id } })}
+          >
             <Edit className="size-4 mr-2" /> Edit
           </Button>
           <Button variant="destructive" size="sm" onClick={() => setShowDeleteModal(true)}>
@@ -102,6 +110,18 @@ function LeadDetailsPage() {
           <Button variant="outline" size="sm">
             <Calendar className="size-4 mr-2" /> Add Task
           </Button>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => {
+              const el = document.getElementById("timeline-section");
+              if (el) {
+                el.scrollIntoView({ behavior: "smooth", block: "start" });
+              }
+            }}
+          >
+            <Clock className="size-4 mr-2" /> Timeline
+          </Button>
         </div>
       </div>
 
@@ -112,10 +132,22 @@ function LeadDetailsPage() {
           <div className="rounded-xl border bg-card p-6">
             <h3 className="font-semibold mb-4">Personal Information</h3>
             <div className="grid grid-cols-2 gap-y-4 text-sm">
-              <div><span className="text-muted-foreground">Email</span><div className="font-medium">{lead.email}</div></div>
-              <div><span className="text-muted-foreground">Phone</span><div className="font-medium">{lead.phone}</div></div>
-              <div><span className="text-muted-foreground">Mobile</span><div className="font-medium">+1 415 555 0192</div></div>
-              <div><span className="text-muted-foreground">Owner</span><div className="font-medium">{lead.owner}</div></div>
+              <div>
+                <span className="text-muted-foreground">Email</span>
+                <div className="font-medium">{lead.email}</div>
+              </div>
+              <div>
+                <span className="text-muted-foreground">Phone</span>
+                <div className="font-medium">{lead.phone}</div>
+              </div>
+              <div>
+                <span className="text-muted-foreground">Mobile</span>
+                <div className="font-medium">+1 415 555 0192</div>
+              </div>
+              <div>
+                <span className="text-muted-foreground">Owner</span>
+                <div className="font-medium">{lead.owner}</div>
+              </div>
             </div>
           </div>
 
@@ -123,10 +155,22 @@ function LeadDetailsPage() {
           <div className="rounded-xl border bg-card p-6">
             <h3 className="font-semibold mb-4">Company Information</h3>
             <div className="grid grid-cols-2 gap-y-4 text-sm">
-              <div><span className="text-muted-foreground">Company</span><div className="font-medium">{lead.company}</div></div>
-              <div><span className="text-muted-foreground">Industry</span><div className="font-medium">SaaS</div></div>
-              <div><span className="text-muted-foreground">Website</span><div className="font-medium text-blue-600">https://acme.com</div></div>
-              <div><span className="text-muted-foreground">Revenue</span><div className="font-medium">${lead.value.toLocaleString()}</div></div>
+              <div>
+                <span className="text-muted-foreground">Company</span>
+                <div className="font-medium">{lead.company}</div>
+              </div>
+              <div>
+                <span className="text-muted-foreground">Industry</span>
+                <div className="font-medium">SaaS</div>
+              </div>
+              <div>
+                <span className="text-muted-foreground">Website</span>
+                <div className="font-medium text-blue-600">https://acme.com</div>
+              </div>
+              <div>
+                <span className="text-muted-foreground">Revenue</span>
+                <div className="font-medium">₹{lead.value.toLocaleString()}</div>
+              </div>
             </div>
           </div>
 
@@ -146,14 +190,28 @@ function LeadDetailsPage() {
           <div className="rounded-xl border bg-card p-6">
             <h3 className="font-semibold mb-4">Lead Details</h3>
             <div className="space-y-3 text-sm">
-              <div className="flex justify-between"><span className="text-muted-foreground">Source</span><span className="font-medium">{lead.source}</span></div>
-              <div className="flex justify-between"><span className="text-muted-foreground">Status</span><StatusBadge value={lead.status} /></div>
-              <div className="flex justify-between"><span className="text-muted-foreground">Created</span><span>{new Date(lead.createdAt).toLocaleDateString()}</span></div>
-              <div className="flex justify-between"><span className="text-muted-foreground">Value</span><span className="font-medium">${lead.value.toLocaleString()}</span></div>
+              <div className="flex justify-between">
+                <span className="text-muted-foreground">Source</span>
+                <span className="font-medium">{lead.source}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-muted-foreground">Status</span>
+                <StatusBadge value={lead.status} />
+              </div>
+              <div className="flex justify-between">
+                <span className="text-muted-foreground">Created</span>
+                <span>{new Date(lead.createdAt).toLocaleDateString()}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-muted-foreground">Value</span>
+                <span className="font-medium">₹{lead.value.toLocaleString()}</span>
+              </div>
             </div>
           </div>
 
-          <LeadActivityTimeline />
+          <div id="timeline-section">
+            <LeadActivityTimeline leadId={id} activities={lead?.activities} />
+          </div>
           <LeadNotesSection />
         </div>
       </div>

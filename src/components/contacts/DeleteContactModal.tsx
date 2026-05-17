@@ -1,5 +1,11 @@
 import { useState } from "react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+} from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { AlertTriangle } from "lucide-react";
 
@@ -10,7 +16,12 @@ interface DeleteContactModalProps {
   contactName: string;
 }
 
-export function DeleteContactModal({ open, onClose, onConfirm, contactName }: DeleteContactModalProps) {
+export function DeleteContactModal({
+  open,
+  onClose,
+  onConfirm,
+  contactName,
+}: DeleteContactModalProps) {
   const [isDeleting, setIsDeleting] = useState(false);
 
   const handleDelete = async () => {
@@ -22,7 +33,7 @@ export function DeleteContactModal({ open, onClose, onConfirm, contactName }: De
 
   return (
     <Dialog open={open} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="sm:max-w-106.25">
         <DialogHeader>
           <div className="flex items-center gap-3">
             <div className="size-10 rounded-full bg-destructive/10 flex items-center justify-center">
@@ -31,7 +42,8 @@ export function DeleteContactModal({ open, onClose, onConfirm, contactName }: De
             <div>
               <DialogTitle>Delete Contact</DialogTitle>
               <DialogDescription className="mt-1">
-                Are you sure you want to delete <strong>{contactName}</strong>? This action cannot be undone.
+                Are you sure you want to delete <strong>{contactName}</strong>? This action
+                cannot be undone.
               </DialogDescription>
             </div>
           </div>

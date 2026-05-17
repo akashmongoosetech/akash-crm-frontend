@@ -1,9 +1,4 @@
-import {
-  createFileRoute,
-  Link,
-  Outlet,
-  useNavigate,
-} from "@tanstack/react-router";
+import { createFileRoute, Link, Outlet, useNavigate } from "@tanstack/react-router";
 
 import { useEffect, useState } from "react";
 import { DataTable, type Column } from "@/components/crm/DataTable";
@@ -75,7 +70,7 @@ export function LeadsPage() {
       key: "value",
       header: "Value",
       accessor: (r) => r.value,
-      render: (r) => <span className="font-medium">${r.value.toLocaleString()}</span>,
+      render: (r) => <span className="font-medium">₹{r.value.toLocaleString()}</span>,
     },
     { key: "owner", header: "Owner", render: (r) => <OwnerCell name={r.owner} /> },
     {
@@ -121,7 +116,7 @@ export function LeadsPage() {
   }
 
   return (
-    <div className="space-y-5 max-w-[1600px]">
+    <div className="space-y-5 max-w-400">
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-semibold tracking-tight">Leads</h1>

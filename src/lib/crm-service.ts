@@ -11,6 +11,7 @@ export interface Lead {
   owner: string;
   value: number;
   createdAt: string;
+  activities?: Array<{ id?: number; user: string; action: string; time: string; iconType?: string }>;
 }
 
 export type LeadSource =
@@ -555,8 +556,9 @@ export const crmService = {
       owner: lead.assignedUser || lead.createdBy?.firstName + " " + lead.createdBy?.lastName || "",
       value: parseInt(lead.annualRevenue?.replace(/[^0-9]/g, "") || "0") || 0,
       createdAt: lead.createdAt,
-    })) || [];
-  },
+      activities: lead.activities || [],
+  }));
+},
 
   async getContacts(): Promise<Contact[]> {
     const data = getMockData();

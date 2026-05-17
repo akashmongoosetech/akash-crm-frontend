@@ -38,8 +38,12 @@ function ContactsPage() {
       header: "Name",
       render: (r) => (
         <div className="flex items-center gap-2.5">
-          <span className="size-8 rounded-full bg-gradient-to-br from-[oklch(0.62_0.17_240)]/80 to-[oklch(0.62_0.17_240)] text-white text-xs font-semibold grid place-items-center">
-            {r.name.split(" ").map((n) => n[0]).slice(0, 2).join("")}
+          <span className="size-8 rounded-full bg-linear-to-br from-[oklch(0.62_0.17_240)]/80 to-[oklch(0.62_0.17_240)] text-white text-xs font-semibold grid place-items-center">
+            {r.name
+              .split(" ")
+              .map((n) => n[0])
+              .slice(0, 2)
+              .join("")}
           </span>
           <div>
             <div className="font-medium">{r.name}</div>
@@ -57,16 +61,31 @@ function ContactsPage() {
       header: "Actions",
       render: (r) => (
         <div className="flex gap-1">
-          <Button variant="ghost" size="sm" className="h-8 w-8 p-0" onClick={() => navigate({ to: "/contacts/$id", params: { id: r.id } })}>
+          <Button
+            variant="ghost"
+            size="sm"
+            className="h-8 w-8 p-0"
+            onClick={() => navigate({ to: "/contacts/$id", params: { id: r.id } })}
+          >
             <Eye className="size-4" />
           </Button>
-          <Button variant="ghost" size="sm" className="h-8 w-8 p-0" onClick={() => navigate({ to: "/contacts/edit/$id", params: { id: r.id } })}>
+          <Button
+            variant="ghost"
+            size="sm"
+            className="h-8 w-8 p-0"
+            onClick={() => navigate({ to: "/contacts/edit/$id", params: { id: r.id } })}
+          >
             <Pencil className="size-4" />
           </Button>
-          <Button variant="ghost" size="sm" className="h-8 w-8 p-0 text-destructive" onClick={() => {
-            setContactToDelete(r);
-            setShowDeleteModal(true);
-          }}>
+          <Button
+            variant="ghost"
+            size="sm"
+            className="h-8 w-8 p-0 text-destructive"
+            onClick={() => {
+              setContactToDelete(r);
+              setShowDeleteModal(true);
+            }}
+          >
             <Trash2 className="size-4" />
           </Button>
         </div>
@@ -75,7 +94,7 @@ function ContactsPage() {
   ];
 
   return (
-    <div className="space-y-5 max-w-[1600px]">
+    <div className="space-y-5 max-w-400">
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-semibold tracking-tight">Contacts</h1>

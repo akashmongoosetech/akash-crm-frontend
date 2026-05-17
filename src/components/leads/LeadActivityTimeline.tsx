@@ -1,17 +1,37 @@
+import { useEffect, useState } from "react";
 import { Clock, User } from "lucide-react";
 
-export function LeadActivityTimeline() {
-  const activities = [
-    { id: 1, user: "Priya Shah", action: "created the lead", time: "2 days ago", icon: User },
-    {
-      id: 2,
-      user: "Aarav Mehta",
-      action: "changed status to Contacted",
-      time: "Yesterday",
-      icon: Clock,
-    },
-    { id: 3, user: "Liam Carter", action: "added a note", time: "4h ago", icon: Clock },
-  ];
+interface Activity {
+  id: number;
+  user: string;
+  action: string;
+  time: string;
+  icon: React.ComponentType<{ className?: string }>;
+}
+
+interface LeadActivityTimelineProps {
+  leadId?: string;
+  activities?: Array<{ user: string; action: string; time: string; iconType?: string }>;
+}
+
+export function LeadActivityTimeline({ leadId, activities: propActivities }: LeadActivityTimelineProps) {
+  const [activities, setActivities] = useState<Activity[]>([]);
+
+  useEffect(() => {
+    if (propActivities && propActivities.length > 0) {
+      const mapped = propActivities.map((a, idx) => ({
+        id: idx + 1,
+        user: a.user,
+        action: a.action,
+        time: a.time,
+        icon: a.iconType === 'User' ? User : Clock,
+      }));
+      setActivities(mapped);
+      return;
+    }
+    // Fallback if no real activities
+    setActivities([]);
+  }, [leadId, propActivities]);
 
   return (
     <div className="rounded-xl border bg-card p-6">

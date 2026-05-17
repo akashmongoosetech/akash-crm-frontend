@@ -35,10 +35,16 @@ function ContactDetailsPage() {
         </Link>
         <div>
           <h1 className="text-3xl font-semibold tracking-tight">{contact.name}</h1>
-          <p className="text-muted-foreground">{contact.title} at {contact.account}</p>
+          <p className="text-muted-foreground">
+            {contact.title} at {contact.account}
+          </p>
         </div>
         <div className="ml-auto flex gap-2">
-          <Button variant="outline" size="sm" onClick={() => navigate({ to: "/contacts/edit/$id", params: { id } })}>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => navigate({ to: "/contacts/edit/$id", params: { id } })}
+          >
             <Edit className="size-4 mr-2" /> Edit
           </Button>
           <Button variant="destructive" size="sm" onClick={() => setShowDeleteModal(true)}>
@@ -52,10 +58,22 @@ function ContactDetailsPage() {
           <div className="rounded-xl border bg-card p-6">
             <h3 className="font-semibold mb-4">Contact Information</h3>
             <div className="grid grid-cols-2 gap-y-4 text-sm">
-              <div><span className="text-muted-foreground">Email</span><div className="font-medium">{contact.email}</div></div>
-              <div><span className="text-muted-foreground">Mobile</span><div className="font-medium">{contact.mobileNumber}</div></div>
-              <div><span className="text-muted-foreground">Phone</span><div className="font-medium">{contact.phone}</div></div>
-              <div><span className="text-muted-foreground">Owner</span><div className="font-medium">{contact.owner}</div></div>
+              <div>
+                <span className="text-muted-foreground">Email</span>
+                <div className="font-medium">{contact.email}</div>
+              </div>
+              <div>
+                <span className="text-muted-foreground">Mobile</span>
+                <div className="font-medium">{contact.mobileNumber}</div>
+              </div>
+              <div>
+                <span className="text-muted-foreground">Phone</span>
+                <div className="font-medium">{contact.phone}</div>
+              </div>
+              <div>
+                <span className="text-muted-foreground">Owner</span>
+                <div className="font-medium">{contact.owner}</div>
+              </div>
             </div>
           </div>
         </div>

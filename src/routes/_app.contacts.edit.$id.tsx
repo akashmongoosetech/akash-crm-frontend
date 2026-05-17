@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { crmService } from "@/lib/crm-service";
+import { crmService, type ContactFormData } from "@/lib/crm-service";
 import { ContactForm } from "@/components/contacts/ContactForm";
 
 export const Route = createFileRoute("/_app/contacts/edit/$id")({
@@ -10,7 +10,7 @@ export const Route = createFileRoute("/_app/contacts/edit/$id")({
 
 function EditContactPage() {
   const { id } = Route.useParams();
-  const [initialData, setInitialData] = useState<any>(null);
+  const [initialData, setInitialData] = useState<Partial<ContactFormData> | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {

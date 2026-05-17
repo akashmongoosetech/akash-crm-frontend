@@ -46,7 +46,7 @@ export function OwnerCell({ name }: { name: string }) {
     .join("");
   return (
     <div className="flex items-center gap-2">
-      <span className="size-7 rounded-full bg-gradient-to-br from-primary/80 to-primary text-primary-foreground text-[11px] font-semibold grid place-items-center">
+      <span className="size-7 rounded-full bg-linear-to-br from-primary/80 to-primary text-primary-foreground text-[11px] font-semibold grid place-items-center">
         {initials}
       </span>
       <span className="text-sm">{name}</span>
