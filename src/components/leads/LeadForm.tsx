@@ -132,7 +132,9 @@ export function LeadFormPage({ mode, leadId }: LeadFormPageProps) {
               <Label htmlFor="firstName">First Name *</Label>
               <Input id="firstName" {...form.register("firstName")} placeholder="John" />
               {form.formState.errors.firstName && (
-                <p className="text-sm text-destructive">{form.formState.errors.firstName.message}</p>
+                <p className="text-sm text-destructive">
+                  {form.formState.errors.firstName.message}
+                </p>
               )}
             </div>
             <div className="space-y-2">
@@ -163,7 +165,11 @@ export function LeadFormPage({ mode, leadId }: LeadFormPageProps) {
             </div>
             <div className="space-y-2">
               <Label htmlFor="annualRevenue">Annual Revenue</Label>
-              <Input id="annualRevenue" {...form.register("annualRevenue")} placeholder="$1,000,000" />
+              <Input
+                id="annualRevenue"
+                {...form.register("annualRevenue")}
+                placeholder="$1,000,000"
+              />
             </div>
             <div className="space-y-2">
               <Label htmlFor="noOfEmployees">No. of Employees</Label>
@@ -178,7 +184,12 @@ export function LeadFormPage({ mode, leadId }: LeadFormPageProps) {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="space-y-2">
               <Label htmlFor="email">Email *</Label>
-              <Input id="email" type="email" {...form.register("email")} placeholder="john@acme.com" />
+              <Input
+                id="email"
+                type="email"
+                {...form.register("email")}
+                placeholder="john@acme.com"
+              />
               {form.formState.errors.email && (
                 <p className="text-sm text-destructive">{form.formState.errors.email.message}</p>
               )}
@@ -287,7 +298,11 @@ export function LeadFormPage({ mode, leadId }: LeadFormPageProps) {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="space-y-2">
               <Label htmlFor="assignedUser">Assigned User</Label>
-              <Input id="assignedUser" {...form.register("assignedUser")} placeholder="user@example.com" />
+              <Input
+                id="assignedUser"
+                {...form.register("assignedUser")}
+                placeholder="user@example.com"
+              />
             </div>
             <div className="space-y-2">
               <Label htmlFor="tags">Tags</Label>
@@ -295,25 +310,31 @@ export function LeadFormPage({ mode, leadId }: LeadFormPageProps) {
             </div>
             <div className="space-y-2 md:col-span-2">
               <Label htmlFor="description">Description</Label>
-              <Textarea id="description" {...form.register("description")} rows={3} placeholder="Lead details..." />
+              <Textarea
+                id="description"
+                {...form.register("description")}
+                rows={3}
+                placeholder="Lead details..."
+              />
             </div>
             <div className="space-y-2 md:col-span-2">
               <Label htmlFor="notes">Notes</Label>
-              <Textarea id="notes" {...form.register("notes")} rows={3} placeholder="Internal notes..." />
+              <Textarea
+                id="notes"
+                {...form.register("notes")}
+                rows={3}
+                placeholder="Internal notes..."
+              />
             </div>
           </div>
         </div>
 
         {/* Actions */}
         <div className="flex gap-3 pt-4">
-          <Button type="submit" disabled={isLoading} className="min-w-[140px]">
+          <Button type="submit" disabled={isLoading} className="min-w-35">
             {isLoading ? "Saving..." : mode === "create" ? "Create Lead" : "Update Lead"}
           </Button>
-          <Button
-            type="button"
-            variant="outline"
-            onClick={() => navigate({ to: "/leads" })}
-          >
+          <Button type="button" variant="outline" onClick={() => navigate({ to: "/leads" })}>
             Cancel
           </Button>
         </div>
