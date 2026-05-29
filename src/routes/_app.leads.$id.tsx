@@ -140,49 +140,58 @@ function LeadDetailsPage() {
                 <span className="text-muted-foreground">Phone</span>
                 <div className="font-medium">{lead.phone}</div>
               </div>
-              <div>
-                <span className="text-muted-foreground">Mobile</span>
-                <div className="font-medium">+1 415 555 0192</div>
-              </div>
-              <div>
-                <span className="text-muted-foreground">Owner</span>
-                <div className="font-medium">{lead.owner}</div>
-              </div>
-            </div>
-          </div>
+               <div>
+                 <span className="text-muted-foreground">Mobile</span>
+                 <div className="font-medium">{lead.phone}</div>
+               </div>
+               <div>
+                 <span className="text-muted-foreground">Owner</span>
+                 <div className="font-medium">{lead.owner}</div>
+               </div>
+             </div>
+           </div>
+ 
+           {/* Company Information */}
+           <div className="rounded-xl border bg-card p-6">
+             <h3 className="font-semibold mb-4">Company Information</h3>
+             <div className="grid grid-cols-2 gap-y-4 text-sm">
+               <div>
+                 <span className="text-muted-foreground">Company</span>
+                 <div className="font-medium">{lead.company}</div>
+               </div>
+               <div>
+                 <span className="text-muted-foreground">Industry</span>
+                 <div className="font-medium">{lead.industry || 'N/A'}</div>
+               </div>
+               <div>
+                 <span className="text-muted-foreground">Website</span>
+                 <div className="font-medium text-blue-600">
+                   {lead.website ? (
+                     <a href={lead.website} target="_blank" rel="noreferrer" className="hover:underline">
+                       {lead.website}
+                     </a>
+                   ) : (
+                     'N/A'
+                   )}
+                 </div>
+               </div>
+               <div>
+                 <span className="text-muted-foreground">Revenue</span>
+                 <div className="font-medium">₹{lead.value.toLocaleString()}</div>
+               </div>
+             </div>
+           </div>
+ 
+           {/* Address */}
+           <div className="rounded-xl border bg-card p-6">
+             <h3 className="font-semibold mb-4">Address</h3>
+             <div className="text-sm space-y-1">
+               <div>{lead.address || 'N/A'}</div>
+               <div>{lead.city ? `${lead.city}, ${lead.state || ''} ${lead.zipCode || ''}` : 'N/A'}</div>
+               <div>{lead.country || ''}</div>
+             </div>
+           </div>
 
-          {/* Company Information */}
-          <div className="rounded-xl border bg-card p-6">
-            <h3 className="font-semibold mb-4">Company Information</h3>
-            <div className="grid grid-cols-2 gap-y-4 text-sm">
-              <div>
-                <span className="text-muted-foreground">Company</span>
-                <div className="font-medium">{lead.company}</div>
-              </div>
-              <div>
-                <span className="text-muted-foreground">Industry</span>
-                <div className="font-medium">SaaS</div>
-              </div>
-              <div>
-                <span className="text-muted-foreground">Website</span>
-                <div className="font-medium text-blue-600">https://acme.com</div>
-              </div>
-              <div>
-                <span className="text-muted-foreground">Revenue</span>
-                <div className="font-medium">₹{lead.value.toLocaleString()}</div>
-              </div>
-            </div>
-          </div>
-
-          {/* Address */}
-          <div className="rounded-xl border bg-card p-6">
-            <h3 className="font-semibold mb-4">Address</h3>
-            <div className="text-sm space-y-1">
-              <div>123 Innovation Drive, Suite 400</div>
-              <div>San Francisco, CA 94105</div>
-              <div>United States</div>
-            </div>
-          </div>
         </div>
 
         {/* Sidebar */}

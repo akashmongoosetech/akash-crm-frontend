@@ -12,6 +12,7 @@ export interface Lead {
   value: number;
   createdAt: string;
   activities?: Array<{ id?: number; user: string; action: string; time: string; iconType?: string }>;
+  notes?: Array<{ text: string; user: string; createdAt: string }>;
 }
 
 export type LeadSource =
@@ -408,7 +409,7 @@ const generateMockData = () => {
     description: "Complete this task as per the project timeline.",
     type: ["Call", "Meeting", "Email", "Task"][i % 4],
     priority: (["High", "Medium", "Low", "Urgent"] as const)[i % 4],
-    status: (["Pending", "In Progress", "Review", "Completed"] as const)[i % 4],
+    status: (["Pending", "In Progress", "Review", "Completed", "Cancelled"] as const)[i % 4],
     assignedTo: pick(owners, i),
     assignedBy: pick(owners, (i + 2) % owners.length),
     relatedLead: `LD-${1000 + (i % 12)}`,
@@ -557,8 +558,9 @@ export const crmService = {
       value: parseInt(lead.annualRevenue?.replace(/[^0-9]/g, "") || "0") || 0,
       createdAt: lead.createdAt,
       activities: lead.activities || [],
-  }));
-},
+      notes: lead.notes || [],
+    }));
+  },
 
   async getContacts(): Promise<Contact[]> {
     const data = getMockData();
@@ -605,7 +607,6 @@ export const crmService = {
     const data = getMockData();
     const index = data.contacts.findIndex((c) => c.id === id);
     if (index === -1) throw new Error("Contact not found");
-
     const updated: Contact = {
       ...data.contacts[index],
       firstName: formData.firstName,
@@ -616,6 +617,7 @@ export const crmService = {
       phone: formData.phoneNumber,
       account: formData.account,
       title: formData.title,
+      department: formData.department || "",
       owner: formData.owner,
     };
     data.contacts[index] = updated;
@@ -675,7 +677,6 @@ export const crmService = {
     const data = getMockData();
     const index = data.accounts.findIndex((a) => a.id === id);
     if (index === -1) throw new Error("Account not found");
-
     const updated: Account = {
       ...data.accounts[index],
       name: formData.name,
@@ -745,7 +746,6 @@ export const crmService = {
     const data = getMockData();
     const index = data.tasks.findIndex((t) => t.id === id);
     if (index === -1) throw new Error("Task not found");
-
     const updated: Task = {
       ...data.tasks[index],
       subject: formData.subject,
@@ -800,7 +800,6 @@ export const crmService = {
     const data = getMockData();
     const index = data.deals.findIndex((d) => d.id === id);
     if (index === -1) throw new Error("Deal not found");
-
     const updated: Deal = {
       ...data.deals[index],
       name: formData.name,
@@ -814,9 +813,9 @@ export const crmService = {
       owner: formData.owner,
       priority: formData.priority || data.deals[index].priority,
       dealType: formData.dealType || data.deals[index].dealType,
-      description: formData.description || data.deals[index].description,
-      notes: formData.notes || data.deals[index].notes,
-      tags: formData.tags || data.deals[index].tags,
+      description: formData.description || "",
+      notes: formData.notes || "",
+      tags: formData.tags || "",
     };
     data.deals[index] = updated;
     return updated;
@@ -843,6 +842,8 @@ export const crmService = {
       owner: lead.assignedUser || "",
       value: parseInt(lead.annualRevenue?.replace(/[^0-9]/g, "") || "0") || 0,
       createdAt: lead.createdAt,
+      activities: lead.activities || [],
+      notes: lead.notes || [],
     };
   },
 
@@ -871,7 +872,7 @@ export const crmService = {
       assignedUser: lead.assignedUser || "",
       tags: lead.tags || "",
       description: lead.description || "",
-      notes: lead.notes || "",
+      notes: lead.notes?.[0]?.text || "",
     };
   },
 
@@ -889,6 +890,8 @@ export const crmService = {
       owner: lead.assignedUser || "",
       value: parseInt(lead.annualRevenue?.replace(/[^0-9]/g, "") || "0") || 0,
       createdAt: lead.createdAt,
+      activities: lead.activities || [],
+      notes: lead.notes || [],
     };
   },
 
@@ -910,7 +913,34 @@ export const crmService = {
       owner: lead.assignedUser || "",
       value: parseInt(lead.annualRevenue?.replace(/[^0-9]/g, "") || "0") || 0,
       createdAt: lead.createdAt,
+      activities: lead.activities || [],
+      notes: lead.notes || [],
     };
+  },
+  async deleteLead(id: string): Promise<void> {
+    await api.delete(`/leads/${id}`);
+  },
+
+  async updateLead(id: string, formData: LeadFormData): Promise<Lead> {
+    const response = await api.put<any>(`/leads/${id}`, formData);
+    const lead = response.data;
+    return {
+      id: lead._id,
+      name: `${lead.firstName} ${lead.lastName}`,
+      company: lead.companyName,
+      email: lead.email,
+      phone: lead.mobileNumber || lead.phoneNumber || "",
+      source: lead.leadSource,
+      status: lead.leadStatus,
+      owner: lead.assignedUser || "",
+      value: parseInt(lead.annualRevenue?.replace(/[^0-9]/g, "") || "0") || 0,
+      createdAt: lead.createdAt,
+      activities: lead.activities || [],
+      notes: lead.notes || [],
+    };
+  },
+
+    await api.post(`/leads/${id}/notes`, { text });
   },
 };
 
